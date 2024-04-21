@@ -1,0 +1,44 @@
+body {
+  background-color: #578a34;
+  font-family: sans-serif;
+  color: white;
+}
+
+#grid {
+  margin: auto;
+  display: grid;
+  width: 100vmin;
+  heigh: 100vmin;
+}
+
+#scoresContainer {
+  position: fixed;
+  font-size: 25px;
+  margin: 15px;
+  line-height: 1.5;
+}
+
+#score {
+  font-weight: bold;
+}
+
+#highScore {
+  font-weight: bold;
+}
+
+#message {
+  position: fixed;
+  width: 100vmin;
+  margin: 1% auto;
+  left: 0;
+  right: 0;
+  padding: 20px 0;
+  background-color: #41531d;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+}
+
+.element {
+  aspect-ratio: 1;
+}
