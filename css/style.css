@@ -2,6 +2,7 @@ body {
   background-color: #578a34;
   font-family: sans-serif;
   color: white;
+  overflow: hidden;
 }
 
 #grid {
