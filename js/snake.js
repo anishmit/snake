@@ -4,7 +4,7 @@ let food = [Math.floor(size / 2), Math.floor(size / 2) + 2];
 let dirChanges = 0;
 let dir = [0,0];
 const elements = [];
-let canPlay = true;
+let canPlay = false;
 let playing = false;
 let score = 0;
 let highScore = 0;
@@ -121,5 +121,49 @@ window.addEventListener("keydown", event => {
     }
     dir = keys[event.key];
     move(++dirChanges);
+  }
+});
+
+let touchStart = [0, 0];
+
+window.addEventListener("touchstart", event => {
+  console.log(event.changedTouches[0]);
+  touchStart = [event.changedTouches[0].screenX, event.changedTouches[0].screenY];
+});
+
+window.addEventListener("touchend", event => {
+  if (canPlay) {
+    const xDiff = event.changedTouches[0].screenX - touchStart[0];
+    const yDiff = event.changedTouches[0].screenY - touchStart[1];
+    let moved = false;
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      if (!dir[1]) {
+        if (xDiff > 0 && dir != [0, 1]) {
+          dir = [0, 1];
+          move(++dirChanges);
+          moved = true;
+        } else if (xDiff <= 0 && dir != [0, -1]) {
+          dir = [0, -1];
+          move(++dirChanges);
+          moved = true;
+        }
+      }
+    } else {
+      if (!dir[0]) {
+        if (yDiff > 0 && dir != [-1, 0]) {
+          dir = [-1, 0];
+          move(++dirChanges);
+          moved = true;
+        } else if (yDiff <= 0 && dir != [1, 0]) {
+          dir = [0, -1];
+          move(++dirChanges);
+          moved = true;
+        }
+      }
+    }
+    if (moved && !playing) {
+      msg.style.visibility = "hidden";
+      playing = true;
+    }
   }
 });
