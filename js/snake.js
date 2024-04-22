@@ -93,7 +93,7 @@ async function move(dirChange) {
     }
     elements[newRow][newCol].classList.add("snake");
     elements[newRow][newCol].id = "snakeHead";
-    setTimeout(move, 175, dirChange);
+    setTimeout(move, 150, dirChange);
   }
 }
 
