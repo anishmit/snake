@@ -127,12 +127,10 @@ window.addEventListener("keydown", event => {
 let touchStart = [0, 0];
 
 window.addEventListener("touchstart", event => {
-  event.preventDefault();
   touchStart = [event.changedTouches[0].screenX, event.changedTouches[0].screenY];
 });
 
 window.addEventListener("touchend", event => {
-  event.preventDefault();
   if (canPlay) {
     const xDiff = event.changedTouches[0].screenX - touchStart[0];
     const yDiff = event.changedTouches[0].screenY - touchStart[1];
@@ -166,6 +164,4 @@ window.addEventListener("touchend", event => {
       move(++dirChanges);
     }
   }
-}, false);
-
-window.addEventListener("touchmove", event => event.preventDefault(), false);
+});
