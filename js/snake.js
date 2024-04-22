@@ -63,7 +63,6 @@ function reset() {
 
 async function move(dirChange) {
   if (dirChange == dirChanges && playing) {
-    console.log("ok");
     const head = snake[snake.length - 1];
     const newRow = head[0] + dir[0], newCol = head[1] + dir[1]; 
     if (newRow < 0 || newCol < 0 || newRow >= size || newCol >= size || inSnake([newRow, newCol])) {
@@ -123,16 +122,17 @@ window.addEventListener("keydown", event => {
     dir = keys[event.key];
     move(++dirChanges);
   }
-});
+}, false);
 
 let touchStart = [0, 0];
 
 window.addEventListener("touchstart", event => {
+  event.preventDefault();
   touchStart = [event.changedTouches[0].screenX, event.changedTouches[0].screenY];
-  console.log(touchStart);
 });
 
 window.addEventListener("touchend", event => {
+  event.preventDefault();
   if (canPlay) {
     const xDiff = event.changedTouches[0].screenX - touchStart[0];
     const yDiff = event.changedTouches[0].screenY - touchStart[1];
@@ -158,7 +158,6 @@ window.addEventListener("touchend", event => {
         }
       }
     }
-    console.log(dir);
     if (moved) {
       if (!playing) {
         msg.style.visibility = "hidden";
@@ -167,4 +166,6 @@ window.addEventListener("touchend", event => {
       move(++dirChanges);
     }
   }
-});
+}, false);
+
+window.addEventListener("touchmove", event => event.preventDefault(), false);
