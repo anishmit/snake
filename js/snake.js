@@ -35,6 +35,32 @@ function getNewFoodCoords() {
   else return coords;
 }
 
+function reset() {
+  msg.innerHTML = "Start by pressing WASD or the arrow keys.";
+  scoreElem.innerHTML = 0;
+  score = 0;
+  snake = [[Math.floor(size / 2), Math.floor(size / 2)]];
+  food = [Math.floor(size / 2), Math.floor(size / 2) + 2];
+  dir = [0, 0];
+  dirChanges = 0;
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (snake[0][0] == i && snake[0][1] == j) {
+        elements[i][j].id = "snakeHead";
+        elements[i][j].classList.add("snake");
+      } else if (food[0] == i && food[1] == j) {
+        elements[i][j].id = "food";
+        elements[i][j].classList.remove("snake");
+      } else {
+        elements[i][j].id = "";
+        elements[i][j].classList.remove("snake");
+      }
+    }
+  }
+  msg.style.visibility = "visible";
+  canPlay = true;
+}
+
 async function move(dirChange) {
   if (dirChange == dirChanges && playing) {
     const head = snake[snake.length - 1];
@@ -44,44 +70,29 @@ async function move(dirChange) {
       canPlay = false;
       highScore = Math.max(highScore, score);
       highScoreElem.innerHTML = highScore;
-      setTimeout(() => {
-        msg.innerHTML = "Restart by pressing WASD or the arrow keys.";
-        scoreElem.innerHTML = 0;
-        score = 0;
-        snake = snake = [[Math.floor(size / 2), Math.floor(size / 2)]];
-        food = [Math.floor(size / 2), Math.floor(size / 2) + 2];
-        dir = [0, 0];
-        dirChanges = 0;
-        for (let i = 0; i < size; i++) {
-          for (let j = 0; j < size; j++) {
-            if (snake[0][0] == i && snake[0][1] == j) {
-              elements[i][j].style.backgroundColor = "#4e7cf6"; 
-            } else if (food[0] == i && food[1] == j) {
-              elements[i][j].style.backgroundColor = "#e7471d"; 
-            } else {
-              elements[i][j].style.backgroundColor = "#aad751"; 
-            }
-          }
-        }
-        msg.style.visibility = "visible";
-        canPlay = true;
-      }, 1000);
+      setTimeout(reset, 1000);
       return;
     }
     else if (newRow == food[0] && newCol == food[1]) {
+      elements[snake[snake.length - 1][0]][snake[snake.length - 1][1]].id = "";
       snake.push([newRow, newCol]);
+      elements[food[0]][food[1]].classList.add("snake");
+      elements[food[0]][food[1]].id = "snakeHead";
       score++;
       scoreElem.innerHTML = score;
       food = getNewFoodCoords();
-      elements[food[0]][food[1]].style.backgroundColor = "#e7471d";
+      elements[food[0]][food[1]].id = "food";
     } else {
-      elements[snake[0][0]][snake[0][1]].style.backgroundColor = "#aad751";
+      elements[snake[0][0]][snake[0][1]].classList.remove("snake");
+      elements[snake[0][0]][snake[0][1]].id = "";
       for (let i = 0; i < snake.length - 1; i++) {
         snake[i] = snake[i + 1];
       }
+      elements[snake[snake.length - 1][0]][snake[snake.length - 1][1]].id = "";
       snake[snake.length - 1] = [newRow, newCol];
     }
-    elements[newRow][newCol].style.backgroundColor = "#4e7cf6"; 
+    elements[newRow][newCol].classList.add("snake");
+    elements[newRow][newCol].id = "snakeHead";
     setTimeout(move, 175, dirChange);
   }
 }
@@ -95,17 +106,11 @@ window.addEventListener("load", () => {
       const element = document.createElement("div");
       row.push(element);
       element.classList.add("element");
-      if (snake[0][0] == i && snake[0][1] == j) {
-        element.style.backgroundColor = "#4e7cf6"; 
-      } else if (food[0] == i && food[1] == j) {
-        element.style.backgroundColor = "#e7471d"; 
-      } else {
-        element.style.backgroundColor = "#aad751"; 
-      }
       grid.appendChild(element);
     }
     elements.push(row);
   }
+  reset();
 });
 
 window.addEventListener("keydown", event => {

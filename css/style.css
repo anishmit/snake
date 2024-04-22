@@ -2,8 +2,7 @@ body {
   background-color: #578a34;
   font-family: sans-serif;
   color: white;
-  overflow: hidden;
-}
+  }
 
 #grid {
   margin: auto;
@@ -42,4 +41,17 @@ body {
 
 .element {
   aspect-ratio: 1;
+  background-color: #aad751;
+}
+
+#food {
+  background-color: #e7471d;
+}
+
+.snake {
+  background-color: rgb(78, 124, 246);
+}
+
+#snakeHead {
+  background-color: rgb(58, 104, 226);
 }
