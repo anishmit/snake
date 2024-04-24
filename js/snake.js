@@ -36,7 +36,6 @@ function getNewFoodCoords() {
 }
 
 function reset() {
-  msg.innerHTML = "Start by pressing WASD or the arrow keys.";
   scoreElem.innerHTML = 0;
   score = 0;
   snake = [[Math.floor(size / 2), Math.floor(size / 2)]];
@@ -93,7 +92,7 @@ async function move(dirChange) {
     }
     elements[newRow][newCol].classList.add("snake");
     elements[newRow][newCol].id = "snakeHead";
-    setTimeout(move, 100, dirChange);
+    setTimeout(move, 150, dirChange);
   }
 }
 
